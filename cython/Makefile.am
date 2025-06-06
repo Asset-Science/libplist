@@ -42,7 +42,7 @@ plist_la_CFLAGS = \
 plist_la_LDFLAGS = -module -avoid-version $(PYTHON_LIBS) $(AM_LDFLAGS) -shared -export-dynamic
 plist_la_LIBADD = $(top_builddir)/src/libplist-2.0.la
 
-if WIN32
+if _WIN32
 plist_la_LDFLAGS += -no-undefined
 endif
 

@@ -263,11 +263,12 @@ extern "C"
     /**
      * Create a new plist_t type #PLIST_DATE
      *
-     * @param sec The number of seconds since 01/01/1970 (UNIX timestamp)
+     * @param sec the number of seconds since 01/01/2001
+     * @param usec the number of microseconds
      * @return the created item
      * @sa #plist_type
      */
-    PLIST_API plist_t plist_new_unix_date(int64_t sec);
+    PLIST_API plist_t plist_new_date(int32_t sec, int32_t usec);
 
     /**
      * Create a new plist_t type #PLIST_UID
@@ -774,9 +775,10 @@ extern "C"
      * This function does nothing if node is not of type #PLIST_DATE
      *
      * @param node the node
-     * @param sec a pointer to an int64_t variable. Represents the number of seconds since 01/01/1970 (UNIX timestamp).
+     * @param sec a pointer to an int32_t variable. Represents the number of seconds since 01/01/2001.
+     * @param usec a pointer to an int32_t variable. Represents the number of microseconds
      */
-    PLIST_API void plist_get_unix_date_val(plist_t node, int64_t *sec);
+    PLIST_API void plist_get_date_val(plist_t node, int32_t * sec, int32_t * usec);
 
     /**
      * Get the value of a #PLIST_UID node.
@@ -865,9 +867,10 @@ extern "C"
      * Forces type of node to #PLIST_DATE
      *
      * @param node the node
-     * @param sec the number of seconds since 01/01/1970 (UNIX timestamp)
+     * @param sec the number of seconds since 01/01/2001
+     * @param usec the number of microseconds
      */
-    PLIST_API void plist_set_unix_date_val(plist_t node, int64_t sec);
+    PLIST_API void plist_set_date_val(plist_t node, int32_t sec, int32_t usec);
 
     /**
      * Set the value of a node.
@@ -1210,15 +1213,16 @@ extern "C"
 
     /**
      * Helper function to compare the value of a PLIST_DATE node against
-     * a given number of seconds since epoch (UNIX timestamp).
+     * a given set of seconds and fraction of a second since epoch.
      *
      * @param datenode node of type PLIST_DATE
-     * @param cmpval Number of seconds to compare against (UNIX timestamp)
+     * @param cmpsec number of seconds since epoch to compare against
+     * @param cmpusec fraction of a second in microseconds to compare against
      * @return 0 if the node's date is equal to the supplied values,
      *         1 if the node's date is greater than the supplied values,
      *         or -1 if the node's date is less than the supplied values.
      */
-    PLIST_API int plist_unix_date_val_compare(plist_t datenode, int64_t cmpval);
+    PLIST_API int plist_date_val_compare(plist_t datenode, int32_t cmpsec, int32_t cmpusec);
 
     /**
      * Helper function to compare the value of a PLIST_STRING node against
@@ -1377,68 +1381,6 @@ extern "C"
      * @return The libplist version as static ascii string
      */
     PLIST_API const char* libplist_version();
-
-
-    /********************************************
-     *                                          *
-     *              Deprecated API              *
-     *                                          *
-     ********************************************/
-
-    /**
-     * Create a new plist_t type #PLIST_DATE
-     *
-     * @deprecated Deprecated. Use plist_new_unix_date instead.
-     *
-     * @param sec the number of seconds since 01/01/2001
-     * @param usec the number of microseconds
-     * @return the created item
-     * @sa #plist_type
-     */
-    PLIST_WARN_DEPRECATED("use plist_new_unix_date instead")
-    PLIST_API plist_t plist_new_date(int32_t sec, int32_t usec);
-
-    /**
-     * Get the value of a #PLIST_DATE node.
-     * This function does nothing if node is not of type #PLIST_DATE
-     *
-     * @deprecated Deprecated. Use plist_get_unix_date_val instead.
-     *
-     * @param node the node
-     * @param sec a pointer to an int32_t variable. Represents the number of seconds since 01/01/2001.
-     * @param usec a pointer to an int32_t variable. Represents the number of microseconds
-     */
-    PLIST_WARN_DEPRECATED("use plist_get_unix_date_val instead")
-    PLIST_API void plist_get_date_val(plist_t node, int32_t * sec, int32_t * usec);
-
-    /**
-     * Set the value of a node.
-     * Forces type of node to #PLIST_DATE
-     *
-     * @deprecated Deprecated. Use plist_set_unix_date_val instead.
-     *
-     * @param node the node
-     * @param sec the number of seconds since 01/01/2001
-     * @param usec the number of microseconds
-     */
-    PLIST_WARN_DEPRECATED("use plist_set_unix_date_val instead")
-    PLIST_API void plist_set_date_val(plist_t node, int32_t sec, int32_t usec);
-
-    /**
-     * Helper function to compare the value of a PLIST_DATE node against
-     * a given set of seconds and fraction of a second since epoch.
-     *
-     * @deprecated Deprecated. Use plist_unix_date_val_compare instead.
-     *
-     * @param datenode node of type PLIST_DATE
-     * @param cmpsec number of seconds since epoch to compare against
-     * @param cmpusec fraction of a second in microseconds to compare against
-     * @return 0 if the node's date is equal to the supplied values,
-     *         1 if the node's date is greater than the supplied values,
-     *         or -1 if the node's date is less than the supplied values.
-     */
-    PLIST_WARN_DEPRECATED("use plist_unix_date_val_compare instead")
-    PLIST_API int plist_date_val_compare(plist_t datenode, int32_t cmpsec, int32_t cmpusec);
 
     /*@}*/
 
